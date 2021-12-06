@@ -56,7 +56,7 @@ def data_preprocessing(tup,sc):
     
     df = spark.createDataFrame(tup,schema=['tweet','Sentiment'])
     
-    df = (df.withColumn("tweet", F.regexp_replace("tweet", r"[@#&][A-Za-z0-9-]+", "")))
+    df = (df.withColumn("tweet", F.regexp_replace("tweet", r"[@#&][A-Za-z0-9-]+", " ")))
     #df['tidy_tweet'] = np.vectorize(remove_pattern)(df['tweet'], "@[\w]*")
     #df.withColumn('tweet',np.vectorize(remove_pattern)(df['tweet'], "@[\w]*"))
 
