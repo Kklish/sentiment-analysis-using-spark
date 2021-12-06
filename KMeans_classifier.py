@@ -17,6 +17,7 @@ import joblib
 import numpy as np
 import csv
 import re
+import pyspark.sql.functions as F
 
 flag = 0 
 model_flag = 0
@@ -53,7 +54,7 @@ def remove_pattern(input_txt, pattern):
 def data_preprocessing(tup,sc):
     spark = SparkSession(sc)
     df = spark.createDataFrame(tup,schema=['tweet','Sentiment'])
-
+    df = (df.withColumn("tweet", F.regexp_replace("tweet", r"[@#&][A-Za-z0-9-]+", " ")))
     # preprocessing part (can add/remove stuff) , right now taking the column subject_of_message for spam detection
     stage_2 = Tokenizer(inputCol="tweet", outputCol="token_text")
     stopwords = StopWordsRemover().getStopWords() + ['-']
