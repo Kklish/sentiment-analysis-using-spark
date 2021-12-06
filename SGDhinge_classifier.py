@@ -53,7 +53,7 @@ def data_preprocessing(tup,sc):
     spark = SparkSession(sc)
     
     df = spark.createDataFrame(tup,schema=['tweet','Sentiment'])
-    df = (df.withColumn("tweet", F.regexp_replace("tweet", r"[@#&][A-Za-z0-9-]+", "")))
+    df = (df.withColumn("tweet", F.regexp_replace("tweet", r"[@#&][A-Za-z0-9-]+", " ")))
 	
     stage_2 = RegexTokenizer(inputCol= 'tweet' , outputCol= 'tokens', pattern= '\\W')
     # define stage 2: remove the stop words
